@@ -1,0 +1,119 @@
+digraph {
+	hf [color=red shape=box]
+	xp [color=red shape=box]
+	rz [color=blue shape=diamond]
+	nm [color=red shape=box]
+	zb [color=red shape=box]
+	lf [color=blue shape=diamond]
+	nn [color=red shape=box]
+	xn [color=red shape=box]
+	gz [color=red shape=box]
+	pn [color=blue shape=diamond]
+	xb [color=red shape=box]
+	vf [color=red shape=box]
+	ds [color=red shape=box]
+	br [color=blue shape=diamond]
+	cm [color=red shape=box]
+	qz [color=red shape=box]
+	lb [color=blue shape=diamond]
+	vx [color=red shape=box]
+	kz [color=red shape=box]
+	gp [color=red shape=box]
+	hq [color=red shape=box]
+	fq [color=red shape=box]
+	mj [color=red shape=box]
+	lz [color=red shape=box]
+	hn [color=red shape=box]
+	fl [color=red shape=box]
+	fm [color=red shape=box]
+	tx [color=red shape=box]
+	mh [color=red shape=box]
+	dn [color=red shape=box]
+	xv [color=red shape=box]
+	vd [color=blue shape=diamond]
+	np [color=red shape=box]
+	sf [color=red shape=box]
+	rq [color=red shape=box]
+	zc [color=red shape=box]
+	fk [color=blue shape=diamond]
+	qn [color=red shape=box]
+	qk [color=red shape=box]
+	ms [color=red shape=box]
+	xd [color=red shape=box]
+	hh [color=red shape=box]
+	sx [color=red shape=box]
+	fn [color=red shape=box]
+	jd [color=red shape=box]
+	mq [color=red shape=box]
+	th [color=blue shape=diamond]
+	bt [color=red shape=box]
+	dq [color=red shape=box]
+	tp [color=red shape=box]
+	nc [color=red shape=box]
+	broadcaster [color=green shape=circle]
+	bh [color=red shape=box]
+	fz [color=blue shape=diamond]
+	cr [color=red shape=box]
+	vq [color=red shape=box]
+	dj [color=red shape=box]
+	kb [color=red shape=box]
+	hf -> qk
+	xp -> pn, mq
+	rz -> lb
+	nm -> hn
+	zb -> gz
+	lf -> lb
+	nn -> vd, zc
+	xn -> fz, kb
+	gz -> vf
+	pn -> lz, hq, lf, mh, bh, mq
+	xb -> th
+	vf -> nc, vd
+	ds -> kz, pn
+	br -> lb
+	cm -> fm
+	qz -> bh, pn
+	lb -> rx
+	vx -> pn, ds
+	kz -> pn
+	gp -> cm, th
+	hq -> mh
+	fq -> xd
+	mj -> th, np
+	lz -> vq, pn
+	hn -> xn, fz
+	fl -> fz, rq
+	fm -> hh, th
+	tx -> fz, qn
+	mh -> xp
+	dn -> nm, fz
+	xv -> vd
+	vd -> zc, nn, hf, br, zb, tp, gz
+	np -> fq
+	sf -> vd, xv
+	rq -> fn, fz
+	zc -> ms
+	fk -> lb
+	qn -> fz, bt
+	qk -> vd, zb
+	ms -> tp, vd
+	xd -> th, gp
+	hh -> th, dq
+	sx -> th, xb
+	fn -> fz
+	jd -> pn, vx
+	mq -> jd
+	th -> mj, rz, np, fq, cm
+	bt -> fz, dn
+	dq -> dj, th
+	tp -> hf
+	nc -> sf, vd
+	broadcaster -> nn, lz, mj, tx
+	bh -> hq
+	fz -> fk, nm, tx
+	cr -> fl, fz
+	vq -> qz, pn
+	dj -> th, sx
+	kb -> cr, fz
+
+}

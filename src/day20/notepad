@@ -1,0 +1,64 @@
+      high: flip: new:
+
+nn    1     1     0 -> 0
+zc    0     1     1 -> 0
+ms    1     0     1 -> 0
+tp    0     1     1 -> 0
+hf    0     1     1 -> 0
+qk    1     0     1 -> 0
+zb    0     1     1 -> 0
+gz    0     1     1 -> 0
+vf    1     0     1 -> 0
+nc    1     0     1 -> 0
+sf    1     0     1 -> 0
+xv    1     0     1 -> 0
+      3877
+
+      high: flip: new:
+
+mj    1     1     0
+np    0     1     1
+fq    0     1     1
+xd    1     0     1
+gp    1     0     1
+cm    0     1     1
+fm    1     0     1
+hh    1     0     1
+dq    1     0     1
+dj    1     0     1
+sx    1     0     1
+xb    1     0     1
+      4057
+
+      high: flip: new:
+
+lz    1     1     0    0
+vq    1     0     1    1
+qz    1     0     1    1
+bh    0     1     1    0
+hq    0     1     1    0
+mh    0     1     1    0
+xp    1     0     1    1
+mq    0     1     1    0
+jd    1     0     1    1
+vx    1     0     1    1
+ds    1     0     1    1
+kz    1     0     1    1
+      3911
+
+      high: flip: new:
+
+tx    1     1     0
+qn    1     0     1
+bt    1     0     1
+dn    1     0     1
+nm    0     1     1
+hn    1     0     1
+xn    1     0     1
+kb    1     0     1
+cr    1     0     1
+fl    1     0     1
+rq    1     0     1
+fn    1     0     1
+      4079
+
