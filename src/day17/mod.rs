@@ -1,105 +1,176 @@
-#[derive(Debug, Clone)]
-struct Cell {
-    x: usize,
-    y: usize,
-    visited: bool,
-    distance: i32,
-    direction: i8,
-    dir_count: i8,
+use std::{
+    cmp::Reverse,
+    collections::BinaryHeap,
+};
+
+#[derive(PartialEq, Eq, Hash, Clone)]
+struct Node {
+    entry_cost: i32,
 }
 
-impl Cell {
-    fn new() -> Self {
-        Self {
-            x: 0,
-            y: 0,
-            visited: false,
-            distance: i32::MAX,
-            direction: 1,
-            dir_count: 0,
+struct Graph {
+    width: usize,
+    height: usize,
+    nodes: Vec<Node>,
+    edges: Vec<Vec<usize>>,
+}
+
+impl Graph {
+    pub fn new(grid: &Vec<Vec<i32>>) -> Self {
+        let mut graph = Graph {
+            width: grid[0].len(),
+            height: grid.len(),
+            nodes: Vec::new(),
+            edges: vec![Vec::new(); grid.len() * grid[0].len() * 12],
+        };
+
+        let width = graph.width;
+        let height = graph.height;
+
+        for y in 0..height {
+            for x in 0..width {
+                let node = Node {
+                    entry_cost: grid[y][x],
+                };
+                for _ in 0..12 {
+                    /*
+                     *  0 right once
+                     *  1 right twice
+                     *  2 right thrice
+                     *  3 down once
+                     *  4 down twice
+                     *  5 down thrice
+                     *  6 left once
+                     *  7 left twice
+                     *  8 left thrice
+                     *  9 up once
+                     * 10 up twice
+                     * 11 up thrice
+                     */
+                    graph.add_node(node.clone());
+                }
+            }
         }
+
+        for y in 0..height {
+            for x in 0..width {
+                if x < width - 1 {
+                    for i in 0..12 {
+                        if i == 0 || i == 1 {
+                            graph.add_edge(
+                                graph.get_index(x, y, i),
+                                graph.get_index(x + 1, y, i + 1),
+                            );
+                            continue;
+                        } else if i == 2 || (6..9).contains(&i) {
+                            continue;
+                        }
+                        graph.add_edge(graph.get_index(x, y, i), graph.get_index(x + 1, y, 0));
+                    }
+                }
+                if y < height - 1 {
+                    for i in 0..12 {
+                        if i == 3 || i == 4 {
+                            graph.add_edge(
+                                graph.get_index(x, y, i),
+                                graph.get_index(x, y + 1, i + 1),
+                            );
+                            continue;
+                        } else if i == 5 || (9..12).contains(&i) {
+                            continue;
+                        }
+                        graph.add_edge(graph.get_index(x, y, i), graph.get_index(x, y + 1, 3));
+                    }
+                }
+                if x > 0 {
+                    for i in 0..12 {
+                        if i == 6 || i == 7 {
+                            graph.add_edge(
+                                graph.get_index(x, y, i),
+                                graph.get_index(x - 1, y, i + 1),
+                            );
+                            continue;
+                        } else if i == 8 || (0..3).contains(&i) {
+                            continue;
+                        }
+                        graph.add_edge(graph.get_index(x, y, i), graph.get_index(x - 1, y, 6));
+                    }
+                }
+                if y > 0 {
+                    for i in 0..12 {
+                        if i == 9 || i == 10 {
+                            graph.add_edge(
+                                graph.get_index(x, y, i),
+                                graph.get_index(x, y - 1, i + 1),
+                            );
+                            continue;
+                        } else if i == 11 || (3..6).contains(&i) {
+                            continue;
+                        }
+                        graph.add_edge(graph.get_index(x, y, i), graph.get_index(x, y - 1, 9));
+                    }
+                }
+            }
+        }
+
+        graph
+    }
+
+    fn add_node(&mut self, node: Node) {
+        self.nodes.push(node);
+    }
+
+    fn add_edge(&mut self, from: usize, to: usize) {
+        self.edges[from].push(to);
+    }
+
+    fn get_index(&self, x: usize, y: usize, z: usize) -> usize {
+        (y * self.width + x) * 12 + z
+    }
+
+    fn get_neighbors(&self, index: usize) -> Vec<usize> {
+        self.edges.get(index).unwrap().clone()
+    }
+
+    fn get_cost(&self, index: usize) -> i32 {
+        self.nodes[index].entry_cost
     }
 }
 
 fn walk(grid: &Vec<Vec<i32>>) -> i32 {
-    let width = grid[0].len();
-    let height = grid.len();
+    let graph = Graph::new(grid);
 
-    let mut cells = vec![vec![Cell::new(); width]; height];
-    for y in 0..height {
-        for x in 0..width {
-            cells[y][x].x = x;
-            cells[y][x].y = y;
+    let mut costs = vec![std::i32::MAX; graph.nodes.len()];
+    for i in 0..12 {
+        costs[graph.get_index(0, 0, i)] = 0;
+    }
+    let mut neighbors: BinaryHeap<(Reverse<i32>, usize)> = BinaryHeap::new();
+    for n in graph.get_neighbors(11) {
+        neighbors.push((Reverse(graph.get_cost(n)), n));
+    }
+
+    let mut visited = vec![false; graph.nodes.len()];
+
+    while let Some((Reverse(cost), node)) = neighbors.pop() {
+        if visited[node] {
+            continue;
+        }
+        visited[node] = true;
+
+        for n in graph.get_neighbors(node) {
+            let new_cost = cost + graph.get_cost(n);
+            if new_cost < costs[n] {
+                costs[n] = new_cost;
+                neighbors.push((Reverse(new_cost), n));
+            }
         }
     }
 
-    cells[0][0].distance = 0;
-    cells[0][0].direction = 1;
-    cells[0][0].dir_count = 0;
-
-    for _ in 0..(width * height) {
-        let clone = cells.clone();
-        let current = clone
-            .iter()
-            .filter_map(|row| row.iter().filter(|c| !c.visited).min_by_key(|c| c.distance))
-            .min_by_key(|c| c.distance)
-            .unwrap();
-
-        let available_directions = (0..4)
-            .filter(|&d| d != (current.direction + 2i8).rem_euclid(4))
-            .collect::<Vec<_>>();
-
-        for d in &available_directions {
-            let neighbor_pos = match d {
-                0 if current.y > 0 => (current.x, current.y - 1),
-                1 if current.x < width - 1 => (current.x + 1, current.y),
-                2 if current.y < height - 1 => (current.x, current.y + 1),
-                3 if current.x > 0 => (current.x - 1, current.y),
-                _ => continue,
-            };
-            let c_dir_count = if d == &current.direction {
-                current.dir_count + 1
-            } else {
-                1
-            };
-            if c_dir_count > 3 {
-                continue;
-            }
-            let neighbor = &mut cells[neighbor_pos.1][neighbor_pos.0];
-            if neighbor.visited {
-                continue;
-            }
-            let new_n_dist = current.distance + grid[neighbor.y][neighbor.x];
-            if new_n_dist < neighbor.distance {
-                neighbor.distance = new_n_dist;
-                neighbor.direction = *d;
-                neighbor.dir_count = c_dir_count;
-            }
-        }
-
-        cells[current.y][current.x].visited = true;
-        if cells[height - 1][width - 1].visited {
-            break;
-        }
-    }
-
-    // for row in &cells {
-    //     for cell in row {
-    //         print!(
-    //             "{:} ",
-    //             match cell.direction {
-    //                 0 => '↑',
-    //                 1 => '→',
-    //                 2 => '↓',
-    //                 3 => '←',
-    //                 _ => panic!(),
-    //             }
-    //         );
-    //     }
-    //     println!()
-    // }
-
-    cells[height - 1][width - 1].distance
+    costs[graph.width * graph.height * 12 - 12..]
+        .iter()
+        .min()
+        .unwrap()
+        .clone()
 }
 
 pub fn part1(path: &str) -> i32 {
