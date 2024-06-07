@@ -74,7 +74,7 @@ fn main() {
     // println!("16B: {}", day16::part2("src/day16/input.txt"));
 
     println!("17A: {}", day17::part1("src/day17/input.txt"));
-    // println!("17B: {}", day17::part2("src/day17/input.txt"));
+    println!("17B: {}", day17::part2("src/day17/input.txt"));
 
     // println!("18A: {}", day18::part1("src/day18/input.txt"));
     // println!("18B: {}", day18::part2("src/day18/input.txt"));
